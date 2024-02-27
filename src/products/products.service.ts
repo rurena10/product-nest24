@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
+import { constants } from 'buffer';
 
 @Injectable()
 export class ProductsService {
@@ -25,7 +26,9 @@ export class ProductsService {
   }
 
   findOne(id: number) {
-    return this.products.find(Product => Product.id === id);
+    const product = this.products.find(Product => Product.id === id);
+    if (!product) throw new Error('Producto no encontrado');
+    return product;
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
